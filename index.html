@@ -126,7 +126,7 @@ form.addEventListener('submit', (e) => {
   const pwd = document.querySelector('#pwd').value;
 
   // 构建 API 地址
-  let apiUrl = `http://api.sgvps.cn/jx.php?url=${encodeURIComponent(url)}`;
+  let apiUrl = `http://api.sgvps.cn/lzyjx.php?url=${encodeURIComponent(url)}`;
   if (pwd !== '') {
     apiUrl += `&pwd=${encodeURIComponent(pwd)}`;
   }
