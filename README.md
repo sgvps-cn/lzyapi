@@ -1,7 +1,3 @@
-# 蓝奏云链接解析器 README.md
-
-```markdown
-
 # 蓝奏云链接解析器
 
 A concise and easy-to-use direct link parser for Lanzou Cloud, implemented based on front-end technologies, no back-end deployment required, ready to use out of the box.
@@ -49,7 +45,7 @@ A concise and easy-to-use direct link parser for Lanzou Cloud, implemented based
 3.  通过服务器域名或IP地址访问该文件，完成部署与使用
 
 #### 方式3：在线直接访问
-项目提供在线演示地址：[https://www.sgvps.cn](https://www.sgvps.cn)（由星耀云免费提供）
+项目提供在线演示地址：[演示地址](https://sgvps-cn.github.io/lzyapi/)（由星耀云免费提供）
 
 ## 详细使用指南
 1.  打开工具页面，在「链接」输入框中粘贴需要解析的蓝奏云分享链接
@@ -61,70 +57,12 @@ A concise and easy-to-use direct link parser for Lanzou Cloud, implemented based
 ## 技术实现说明
 ### 核心原理
 1.  前端交互层：通过HTML构建输入表单与结果展示区域，CSS美化界面样式，JavaScript处理用户输入、表单提交等交互逻辑
-2.  接口请求层：收集用户输入的链接与密码后，拼接第三方解析API地址（https://api.sgvps.cn/lzyjx.php），通过Fetch API发起异步请求
+2.  接口请求层：收集用户输入的链接与密码后，拼接第三方解析API地址，通过Fetch API发起异步请求
 3.  结果处理层：接收API返回的JSON格式数据，解析后提取文件名、文件大小、直链等关键信息，动态渲染至页面；同时实现复制功能的事件绑定
 4.  异常处理：对请求失败、API返回错误等场景进行捕获，向用户展示清晰的错误提示
 
-### 核心代码片段（请求与结果处理）
-```javascript
-// 表单提交事件监听
-form.addEventListener('submit', (e) => {
-  e.preventDefault();
-  output.style.display = 'none';
-  // 获取用户输入
-  const url = document.querySelector('#url').value;
-  const pwd = document.querySelector('#pwd').value;
-
-  // 拼接API请求地址
-  let apiUrl = `https://api.sgvps.cn/lzyjx.php?url=${encodeURIComponent(url)}`;
-  if (pwd !== '') {
-    apiUrl += `&pwd=${encodeURIComponent(pwd)}`;
-  }
-
-  // 发起解析请求并处理结果
-  fetch(apiUrl)
-    .then(response => response.json())
-    .then(data => {
-      const { name, msg, filesize, downUrl } = data;
-      // 渲染解析结果
-      output.innerHTML = `解析结果：${msg}
-文件名：${name}
-文件大小：${filesize} 字节永久直链：${apiUrl}&type=down`;
-      output.style.display = 'block';
-      // 绑定复制按钮事件
-      bindCopyEvent();
-    })
-    .catch(error => {
-      output.innerText = `出错了：${error.message}`;
-      output.style.display = 'block';          
-    });
-});
-
-// 复制功能封装
-function bindCopyEvent() {
-  const copyBtns = document.querySelectorAll('[id^="copyBtn"]');
-  copyBtns.forEach(copyBtn => {
-    copyBtn.addEventListener('click', () => {
-      const copyTarget = document.querySelector(`#${copyBtn.previousElementSibling.id}`);
-      const range = document.createRange();
-      range.selectNode(copyTarget);
-      const selection = window.getSelection();
-      selection.removeAllRanges();
-      selection.addRange(range);
-      document.execCommand('copy');
-      selection.removeAllRanges();
-      // 显示复制成功提示
-      const copySuccess = document.createElement('div');
-      copySuccess.classList.add('copy-success');
-      copySuccess.innerText = '已复制到剪贴板';
-      copyBtn.parentNode.insertBefore(copySuccess, copyBtn.nextElementSibling);
-    });
-  });
-}
-```
-
 ## 注意事项
-1.  接口依赖说明：本工具依赖第三方解析API（https://api.sgvps.cn/lzyjx.php），工具可用性与API稳定性直接相关，若API失效，工具将无法正常使用
+1.  接口依赖说明：本工具依赖第三方解析API，工具可用性与API稳定性直接相关，若API失效，工具将无法正常使用
 2.  合法使用约束：请仅将本工具用于个人合法获取的蓝奏云链接解析，不得用于侵犯他人版权、隐私等非法用途
 3.  功能局限性：由于蓝奏云官方可能调整接口逻辑，可能导致解析功能临时失效，届时需等待API适配更新
 4.  安全提示：解析过程中仅前端与第三方API交互，本工具不存储任何用户输入的链接、密码及解析结果
@@ -151,14 +89,11 @@ function bindCopyEvent() {
 
 ## 联系与反馈
 - 项目作者：星耀云
-- 官方官网：[https://www.sgvps.cn](https://www.sgvps.cn)
-- 问题反馈：若使用过程中遇到bug或有功能建议，可直接在GitHub Issues中提交
-- 邮箱联系：如需进一步沟通，可发送邮件至 contact@sgvps.cn
+- 官网：https://www.sgvps.cn
+- 问题反馈：提交Issues到GitHub仓库
+- 技术博客：https://blog.sgvps.cn
 
 ## 鸣谢
 - 感谢星耀云提供的免费解析API，为本工具的核心功能提供支撑
 - 感谢所有参与项目贡献的开发者
 - 感谢每一位使用与支持本项目的用户
-
-```
-> （注：文档部分内容可能由 AI 生成）
